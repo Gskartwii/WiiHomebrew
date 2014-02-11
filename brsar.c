@@ -5,6 +5,7 @@
 /*=========================== New Courses/Arenas ===============================*/
 /*==============================================================================*/
 // NOTICE: Multi-Channel BRSTMs are not here! They are on the bottom of the file!
+// Tab length fix
 #define N_BLOCK_F		0xF929C		// Block Plaza ~ Last minute
 #define N_BLOCK_N		0xFE968		// Block Plaza ~ Normal
 #define N_BOSSMI_32		0xFFD80		// Galaxy Colosseum/Arena
