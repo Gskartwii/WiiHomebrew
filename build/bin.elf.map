@@ -8559,7 +8559,7 @@ END GROUP
 LOAD /opt/devkitpro/devkitPPC/lib/gcc/powerpc-eabi/4.6.3/libgcc.a
 LOAD /opt/devkitpro/devkitPPC/lib/gcc/powerpc-eabi/4.6.3/crtend.o
 LOAD /opt/devkitpro/devkitPPC/lib/gcc/powerpc-eabi/4.6.3/ecrtn.o
-OUTPUT(/home/gskw/workspace/BRSAR_Patch/bin/BRSAR_Patch.elf elf32-powerpc)
+OUTPUT(/home/gskw/workspace/BRSAR_Patch/bin.elf elf32-powerpc)
 
 .debug_ranges   0x0000000000000000     0x7c78
  .debug_ranges  0x0000000000000000       0x18 main.o
