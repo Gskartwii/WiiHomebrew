@@ -178,12 +178,12 @@ inline s32 write_exact(s32 s, char *buf, s32 length) {
 	return transfer_exact(s,buf,length,(transferrer_type)net_write);
 }
 
-void filedl(char host[], char file[], char output[]) {
+void filedl(char host[], char file[], char output[], char outfile[], int unlink) {
 	printf("Attempting to connect to server...\n");
 
 	s32 main_server=server_connect();
 	printf("Connection successful.\n\n");
-	FILE *f=fopen("sd:/dl.txt", "wb");
+	FILE *f=fopen(outfile, "wb");
 	if (f==NULL) {
 		fclose(f);
 		printf("Could not create download file.");
@@ -207,7 +207,9 @@ void filedl(char host[], char file[], char output[]) {
 		sprintf(ret, "%s\n", text);
 	}
 	//sleep(5);
-	unlink("dl.txt");
-	printf("dl.txt unlinked!\n");
+	if (unlink) {
+		unlink("sd:/dl.txt");
+		printf("dl.txt unlinked!\n");
+	}
 	strcpy(output, ret);
 }

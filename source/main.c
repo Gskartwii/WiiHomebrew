@@ -169,8 +169,10 @@ int main(int argc, char **argv) {
 		}
 		else if (pressed & WPAD_BUTTON_A) {
 			char file[4096];
-			filedl("gskartwii.arkku.net", "latest.txt", &file);
-			printf(file);
+			filedl("gskartwii.arkku.net", "latest.txt", &file, "sd:/BRSAR/latest.txt", 1);
+			if ((int)file>1) {
+				filedl("gskartwii.arkku.net", "latest.dol", &file, "sd:/apps/BRSAR/boot.dol", 0);
+			}
 		}
 		//updatescr();
 
