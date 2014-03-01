@@ -58,7 +58,8 @@ main.o: /home/gskw/workspace/BRSAR_Patch/source/main.c \
  /home/gskw/workspace/BRSAR_Patch/source/networkstuff.h \
  /opt/devkitpro/libogc/include/ogcsys.h \
  /opt/devkitpro/libogc/include/fat.h \
- /opt/devkitpro/libogc/include/libfatversion.h
+ /opt/devkitpro/libogc/include/libfatversion.h \
+ /opt/devkitpro/libogc/include/debug.h
 
 /opt/devkitpro/libogc/include/gccore.h:
 
@@ -179,3 +180,5 @@ main.o: /home/gskw/workspace/BRSAR_Patch/source/main.c \
 /opt/devkitpro/libogc/include/fat.h:
 
 /opt/devkitpro/libogc/include/libfatversion.h:
+
+/opt/devkitpro/libogc/include/debug.h:

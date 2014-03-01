@@ -23,6 +23,7 @@
 #include <fat.h>
 #include <ogc/lwp_watchdog.h>
 #include "networkstuff.h"
+#include <debug.h>
 
 
 #define NET_BUFFER_SIZE 1024
@@ -125,15 +126,29 @@ bool request_file(s32 server, FILE *f) {
 	return 1;
 }
 
-s32 server_connect() {
+s32 server_connect(char* hostname) {
 	struct sockaddr_in connect_addr;
 
 	s32 server=net_socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
 	if (server < 0) printf("Error creating socket, exiting");
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	// DNS CODE
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	// Credits to Drmn4ea @ forum.wiibrew.org
+	struct hostent *hp=net_gethostbyname(hostname);
+	if (!hp || !(hp->h_addrtype==PF_INET)) {
+		printf("net_gethostname failed: %d\n", errno);
+		return errno;
+	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	// DNS END
+	//////////////////////////////////////////////////////////////////////////////////////////////////
 	memset(&connect_addr, 0, sizeof(connect_addr));
-	connect_addr.sin_family=AF_INET;
+	connect_addr.sin_family=PF_INET;
 	connect_addr.sin_port=SOCKET_PORT;
-	connect_addr.sin_addr.s_addr=inet_addr(IP_ADDRESS);
+	connect_addr.sin_len=sizeof(struct sockaddr_in);
+	//connect_addr.sin_addr.s_addr=inet_addr(IP_ADDRESS);
+	memcpy((char*) &connect_addr.sin_addr, hp->h_addr_list[0], hp->h_length);
 	if (net_connect(server, (struct sockaddr*)&connect_addr, sizeof(connect_addr))==-1) {
 		net_close(server);
 		printf("Failed to connect to the remote server.\n");
@@ -178,17 +193,17 @@ inline s32 write_exact(s32 s, char *buf, s32 length) {
 	return transfer_exact(s,buf,length,(transferrer_type)net_write);
 }
 
-void filedl(char host[], char file[], char output[], char outfile[], int unlink) {
+void filedl(char host[], char file[], char output[], char outfile[], int dounlink) {
 	printf("Attempting to connect to server...\n");
 
-	s32 main_server=server_connect();
+	s32 main_server=server_connect(host);
 	printf("Connection successful.\n\n");
 	FILE *f=fopen(outfile, "wb");
 	if (f==NULL) {
 		fclose(f);
-		printf("Could not create download file.");
+		printf("Could not create download file.\n");
 	}
-	printf("Downloading...");
+	printf("Downloading...\n");
 	char http_request[1000];
 	char row1[1000];
 	char row2[1000];
@@ -207,7 +222,7 @@ void filedl(char host[], char file[], char output[], char outfile[], int unlink)
 		sprintf(ret, "%s\n", text);
 	}
 	//sleep(5);
-	if (unlink) {
+	if (dounlink) {
 		unlink("sd:/dl.txt");
 		printf("dl.txt unlinked!\n");
 	}

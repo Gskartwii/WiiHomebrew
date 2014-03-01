@@ -111,7 +111,7 @@ clean:
 #---------------------------------------------------------------------------------
 test:
 	# Will open dolphin emulator if installed.
-	/usr/games/dolphin-emu -e=$(TARGET).dol
+	/media/extend/dolpin-emu/Build/Binaries/dolphin-emu -e=$(TARGET).dol
 
 
 #---------------------------------------------------------------------------------

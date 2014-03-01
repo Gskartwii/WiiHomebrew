@@ -15,6 +15,7 @@
 #include "libbrsar.h"
 #include "networkstuff.h"
 #include <fat.h>
+#include <debug.h>
 
 /*! @var int currow
  * @brief The current chosen row.
@@ -48,7 +49,7 @@ static GXRModeObj *rmode = NULL;
  *
  *	This string array contains all the strings to be printed on the screen every frame.
  */
-char *screen[]={
+/*char *screen[]={
 		"",
 		"",
 		"N_BLOCK_F",
@@ -66,7 +67,7 @@ char *screen[]={
 		"N_KINOKO_N",
 		"N_MAPLE_F",
 		"N_MAPLE_N"
-};
+};*/
 
 /*! @fn void updatescr()
  *  @brief Updates the screen.
@@ -143,9 +144,9 @@ int main(int argc, char **argv) {
 	// This positions the cursor on row 2, column 0
 	// we can use variables for this with format codes too
 	// e.g. printf ("\x1b[%d;%dH", row, column );
-	/*printf("\x1b[2;0H");
+	printf("\x1b[2;0H");
 
-	printf("Menu of BRSTM's:\n");
+	/*printf("Menu of BRSTM's:\n");
 	printf("\e[32mN_BLOCK_F\n"); // Row 3;0H
 	printf("\e[37mN_BLOCK_N\n"); // Row 4;0H*/
 
@@ -170,9 +171,10 @@ int main(int argc, char **argv) {
 		else if (pressed & WPAD_BUTTON_A) {
 			char file[4096];
 			filedl("gskartwii.arkku.net", "latest.txt", &file, "sd:/BRSAR/latest.txt", 1);
-			if ((int)file>1) {
+			/*if ((int)file>1) {
 				filedl("gskartwii.arkku.net", "latest.dol", &file, "sd:/apps/BRSAR/boot.dol", 0);
-			}
+			}*/
+			printf("%s", file);
 		}
 		//updatescr();
 

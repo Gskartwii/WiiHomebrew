@@ -25,5 +25,10 @@ int offsetFromString(char* str) {
 		return N_CASINO_F;
 	if (strcmp("N_CASINO_N", str)==0)
 		return N_CASINO_N;
+	if (strcmp("N_CIRCUIT32_F", str)==0)
+		return N_CIRCUIT32_F;
+	if (strcmp("N_CIRCUIT32_N", str)==0)
+		return N_CIRCUIT32_N;
+
 	return -1;
 }

@@ -14,7 +14,7 @@ const char *CRLF;
 const u32 CRLF_LENGTH;
 
 void initialise_network();
-s32 server_connect();
+s32 server_connect(char* hostname);
 bool request_file(s32 server, FILE *f);
 extern u32 net_gethostip();
 s32 send_message(s32 server, char *msg);
