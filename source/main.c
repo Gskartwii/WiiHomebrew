@@ -16,6 +16,7 @@
 #include "networkstuff.h"
 #include <fat.h>
 #include <debug.h>
+#include <network.h>
 
 /*! @var int currow
  * @brief The current chosen row.
@@ -77,7 +78,7 @@ static GXRModeObj *rmode = NULL;
  *
  *  Updates the screen every frame to have all the file names printed.
  */
-void updatescr() {
+/*void updatescr() {
 	printf("\e[2;0HMenu of BRSAR's:\n");
 	static int i;
 	for (i=2;i<sizeof(screen)/sizeof(screen[0]);i++) {
@@ -85,7 +86,7 @@ void updatescr() {
 		else printf("\e[%d;0H\e[37m%s                 ", i+1, screen[i]);
 	}
 	printf("\n\e[37mCurrent row: %d, size=%d ",currow,sizeof(screen)/sizeof(screen[0]));
-}
+}*/
 
 /*! @fn int main(int argv, char** argv)
  *  @brief The main program.
@@ -104,6 +105,13 @@ void updatescr() {
  *  @see updatescr()
  */
 int main(int argc, char **argv) {
+	s32 ret;
+	char localip[16] = {0};
+	char gateway[16] = {0};
+	char netmask[16] = {0};
+	ret=if_config(localip, netmask, gateway, TRUE);
+	if (ret>=0)
+		printf ("network configured, ip: %s, gw: %s, mask %s\n", localip, gateway, netmask);
 
 	// Initialise the video system
 	VIDEO_Init();
@@ -160,13 +168,16 @@ int main(int argc, char **argv) {
 		// this is a "one shot" state which will not fire again until the button has been released
 		u32 pressed = WPAD_ButtonsDown(0);
 
-		if ( pressed & WPAD_BUTTON_DOWN ) {
+		/*if ( pressed & WPAD_BUTTON_DOWN ) {
 			if (currow==sizeof(screen)/sizeof(screen[0])) currow=3;
 			else currow++;
 		}
 		else if (pressed & WPAD_BUTTON_UP) {
 			if (currow==3) currow=sizeof(screen)/sizeof(screen[0]);
 			else currow--;
+		}*/
+		if (pressed & WPAD_BUTTON_HOME) {
+			return 0;
 		}
 		else if (pressed & WPAD_BUTTON_A) {
 			char file[4096];
