@@ -112,6 +112,7 @@ int main(int argc, char **argv) {
 	ret=if_config(localip, netmask, gateway, TRUE);
 	if (ret>=0)
 		printf ("network configured, ip: %s, gw: %s, mask %s\n", localip, gateway, netmask);
+	DEBUG_Init(GDBSTUB_DEVICE_TCP, 5656);
 
 	// Initialise the video system
 	VIDEO_Init();
