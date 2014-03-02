@@ -31,7 +31,7 @@ int currow=3;
  *	@warning Notice it is a static variable!
  *	@since 1.2
  *
- *	This variable contains the current External Farm Buffer.
+ *	This variable contains the current External Frame Buffer.
  */
 static void *xfb = NULL;
 

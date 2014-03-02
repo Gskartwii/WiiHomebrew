@@ -129,7 +129,7 @@ bool request_file(s32 server, FILE *f) {
 s32 server_connect(char* hostname) {
 	struct sockaddr_in connect_addr;
 
-	s32 server=net_socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
+	s32 server=net_socket(PF_INET, SOCK_STREAM, IPPROTO_IP);
 	if (server < 0) printf("Error creating socket, exiting");
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	// DNS CODE
