@@ -20,6 +20,8 @@
 #include <sys/dir.h>
 #include <dirent.h>
 
+#define CURR_VERSION 1
+
 /*! @var int currow
  * @brief The current chosen row.
  * @since 1.2
@@ -189,10 +191,10 @@ int main(int argc, char **argv) {
 				printf("Made dir BRSAR\n");
 			}
 			filedl("gskartwii.arkku.net", "latest.txt", &file, "sd:/BRSAR/latest.txt", 1);
-			/*if ((int)file>1) {
+			/*if ((int)file>CURR_VERSION) {
 				filedl("gskartwii.arkku.net", "latest.dol", &file, "sd:/apps/BRSAR/boot.dol", 0);
 			}*/
-			printf("%s", file);
+			printf("\n\nReturn is: %s", file);
 		}
 		//updatescr();
 

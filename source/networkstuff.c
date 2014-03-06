@@ -217,16 +217,20 @@ void filedl(char host[], char file[], char output[], char outfile[], int dounlin
 	int result=request_file(main_server, f);
 	fclose(f);
 	printf("Reading file NOW! Res=%d\n",result);
-	//f=fopen("sd:/dl.txt", "rb");
+	fclose(f);
+	f=fopen("sd:/dl.txt", "rb");
 	char ret[4096];
 	char text[1000];
 	while (fgets(text,1000,f)) {
 		sprintf(ret, "%s\n", text);
 	}
 	//sleep(5);
+	fclose(f);
 	if (dounlink) {
 		unlink(outfile);
 		printf("%s unlinked!\n", outfile);
 	}
+	//printf("Before strcpy");
 	strcpy(output, ret);
+	//printf("After strcpy");
 }
