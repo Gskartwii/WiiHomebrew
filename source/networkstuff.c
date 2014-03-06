@@ -156,8 +156,9 @@ s32 server_connect(char* hostname) {
 	return server;
 }
 
-void initialise_network () {
-	printf("Initialising network...\n");
+void initialise_network() {
+	printf("\n\nInitialising network...\n");
+	printf("\n\nInitialising network...\n");
 	s32 result=-1;
 	while (result<0) {
 		while ((result=net_init())== -EAGAIN) {
@@ -198,6 +199,7 @@ void filedl(char host[], char file[], char output[], char outfile[], int dounlin
 
 	s32 main_server=server_connect(host);
 	printf("Connection successful.\n\n");
+	printf("Outfile: %s", outfile);
 	FILE *f=fopen(outfile, "wb");
 	if (f==NULL) {
 		fclose(f);
@@ -223,8 +225,8 @@ void filedl(char host[], char file[], char output[], char outfile[], int dounlin
 	}
 	//sleep(5);
 	if (dounlink) {
-		unlink("sd:/dl.txt");
-		printf("dl.txt unlinked!\n");
+		unlink(outfile);
+		printf("%s unlinked!\n", outfile);
 	}
 	strcpy(output, ret);
 }

@@ -17,6 +17,8 @@
 #include <fat.h>
 #include <debug.h>
 #include <network.h>
+#include <sys/dir.h>
+#include <dirent.h>
 
 /*! @var int currow
  * @brief The current chosen row.
@@ -105,14 +107,14 @@ static GXRModeObj *rmode = NULL;
  *  @see updatescr()
  */
 int main(int argc, char **argv) {
+	char printthis[4096];
 	s32 ret;
 	char localip[16] = {0};
 	char gateway[16] = {0};
 	char netmask[16] = {0};
 	ret=if_config(localip, netmask, gateway, TRUE);
 	if (ret>=0)
-		printf ("network configured, ip: %s, gw: %s, mask %s\n", localip, gateway, netmask);
-	DEBUG_Init(GDBSTUB_DEVICE_TCP, 5656);
+		sprintf(printthis, "network configured, ip: %s, gw: %s, mask %s\n", localip, gateway, netmask);
 
 	// Initialise the video system
 	VIDEO_Init();
@@ -158,10 +160,9 @@ int main(int argc, char **argv) {
 	/*printf("Menu of BRSTM's:\n");
 	printf("\e[32mN_BLOCK_F\n"); // Row 3;0H
 	printf("\e[37mN_BLOCK_N\n"); // Row 4;0H*/
-
-
+	printf("\e[2;0H%s", printthis);
+	DEBUG_Init(100, 5656);
 	while(1) {
-
 		// Call WPAD_ScanPads each loop, this reads the latest controller states
 		WPAD_ScanPads();
 
@@ -182,6 +183,11 @@ int main(int argc, char **argv) {
 		}
 		else if (pressed & WPAD_BUTTON_A) {
 			char file[4096];
+			DIR *brsardir=opendir("sd:/BRSAR");
+			if (!brsardir) {
+				mkdir("sd:/BRSAR", 0777);
+				printf("Made dir BRSAR\n");
+			}
 			filedl("gskartwii.arkku.net", "latest.txt", &file, "sd:/BRSAR/latest.txt", 1);
 			/*if ((int)file>1) {
 				filedl("gskartwii.arkku.net", "latest.dol", &file, "sd:/apps/BRSAR/boot.dol", 0);
