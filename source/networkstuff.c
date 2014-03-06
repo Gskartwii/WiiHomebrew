@@ -87,7 +87,7 @@ bool request_file(s32 server, FILE *f) {
 	temp_tok=strtok(message,"\n");
 	while (temp_tok!=NULL) {
 		if (strstr(temp_tok, "HTTP/1.1 4")|| strstr(temp_tok, "HTTP/1.1 5")) {
-			printf("Server fault! %s", temp_tok);
+			printf("Server fault! %s\n", temp_tok);
 			return -1;
 		}
 		if (strlen(temp_tok)==1) break;
@@ -130,7 +130,7 @@ s32 server_connect(char* hostname) {
 	struct sockaddr_in connect_addr;
 
 	s32 server=net_socket(PF_INET, SOCK_STREAM, IPPROTO_IP);
-	if (server < 0) printf("Error creating socket, exiting");
+	if (server < 0) printf("Error creating socket, exiting\n");
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	// DNS CODE
 	//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -199,7 +199,7 @@ void filedl(char host[], char file[], char output[], char outfile[], int dounlin
 
 	s32 main_server=server_connect(host);
 	printf("Connection successful.\n\n");
-	printf("Outfile: %s", outfile);
+	printf("Outfile: %s\n", outfile);
 	FILE *f=fopen(outfile, "wb");
 	if (f==NULL) {
 		fclose(f);

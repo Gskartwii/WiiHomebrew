@@ -1,13 +1,3 @@
-/** @file main.c
- *  @brief The main code file of the project.
- *  @author		Gskartwii <gskartwii@gskartwii.arkku.net>
- *  @version		1.2
- *  @since		2014-02-01
- *
- *  This file contains the screen printing function, updater and other basic code.
- */
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <gccore.h>
@@ -22,38 +12,10 @@
 
 #define CURR_VERSION 1
 
-/*! @var int currow
- * @brief The current chosen row.
- * @since 1.2
- *
- * This variable holds the current row the user has chosen.
- */
 int currow=3;
-
-/*! @var static void* xfb
- *	@brief Current External Frame Buffer.
- *	@warning Notice it is a static variable!
- *	@since 1.2
- *
- *	This variable contains the current External Frame Buffer.
- */
 static void *xfb = NULL;
-
-/*! @ṿar static GXRModeObj* rmode
- *  @brief Preferred video mode.
- *  @warning Notice it is a static variable!
- *  @since 1.2
- *
- *	This contains the preferred video mode set in the Wii settings.
- */
 static GXRModeObj *rmode = NULL;
 
-/*! @var char* screen[]
- *	@brief Strings to be printed.
- *	@since 1.2
- *
- *	This string array contains all the strings to be printed on the screen every frame.
- */
 /*char *screen[]={
 		"",
 		"",
@@ -74,14 +36,6 @@ static GXRModeObj *rmode = NULL;
 		"N_MAPLE_N"
 };*/
 
-/*! @fn void updatescr()
- *  @brief Updates the screen.
- *  @since 1.2
- *  @see currow
- *  @see screen
- *
- *  Updates the screen every frame to have all the file names printed.
- */
 /*void updatescr() {
 	printf("\e[2;0HMenu of BRSAR's:\n");
 	static int i;
@@ -92,22 +46,6 @@ static GXRModeObj *rmode = NULL;
 	printf("\n\e[37mCurrent row: %d, size=%d ",currow,sizeof(screen)/sizeof(screen[0]));
 }*/
 
-/*! @fn int main(int argv, char** argv)
- *  @brief The main program.
- *  @param argc Number of arguments.
- *  @param argv Array of argument strings.
- *  @return The exit code of the program.
- *  @since 1.2
- *
- *  This is the main program of the file. Everything is called from here.
- *
- *  @see rmode
- *  @see xfb
- *  @see initialise_network()
- *  @see currow
- *  @see filedl()
- *  @see updatescr()
- */
 int main(int argc, char **argv) {
 	char printthis[4096];
 	s32 ret;
@@ -157,7 +95,7 @@ int main(int argc, char **argv) {
 	// This positions the cursor on row 2, column 0
 	// we can use variables for this with format codes too
 	// e.g. printf ("\x1b[%d;%dH", row, column );
-	printf("\x1b[2;0H");
+	//printf("\x1b[2;0H");
 
 	/*printf("Menu of BRSTM's:\n");
 	printf("\e[32mN_BLOCK_F\n"); // Row 3;0H
@@ -194,7 +132,7 @@ int main(int argc, char **argv) {
 			/*if ((int)file>CURR_VERSION) {
 				filedl("gskartwii.arkku.net", "latest.dol", &file, "sd:/apps/BRSAR/boot.dol", 0);
 			}*/
-			printf("\n\nReturn is: %s", file);
+			printf("\n\nReturn is: %s\n", file);
 		}
 		//updatescr();
 
