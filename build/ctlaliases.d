@@ -1,7 +1,10 @@
-main.o: /home/gskw/workspace/BRSAR_Patch/source/main.c \
+ctlaliases.o: /home/gskw/workspace/BRSAR_Patch/source/ctlaliases.c \
+ /opt/devkitpro/libogc/include/wiiuse/wpad.h \
+ /opt/devkitpro/libogc/include/gctypes.h \
+ /opt/devkitpro/libogc/include/wiiuse/wiiuse.h \
+ /opt/devkitpro/libogc/include/bte/bte.h \
  /opt/devkitpro/libogc/include/gccore.h \
  /opt/devkitpro/libogc/include/ogc/dsp.h \
- /opt/devkitpro/libogc/include/gctypes.h \
  /opt/devkitpro/libogc/include/ogc/aram.h \
  /opt/devkitpro/libogc/include/ogc/arqueue.h \
  /opt/devkitpro/libogc/include/ogc/lwp_queue.h \
@@ -50,24 +53,20 @@ main.o: /home/gskw/workspace/BRSAR_Patch/source/main.c \
  /opt/devkitpro/libogc/include/ogc/mutex.h \
  /opt/devkitpro/libogc/include/ogc/system.h \
  /opt/devkitpro/libogc/include/ogc/wiilaunch.h \
- /opt/devkitpro/libogc/include/wiiuse/wpad.h \
- /opt/devkitpro/libogc/include/wiiuse/wiiuse.h \
- /opt/devkitpro/libogc/include/bte/bte.h \
  /opt/devkitpro/libogc/include/bte/bd_addr.h \
- /home/gskw/workspace/BRSAR_Patch/source/libbrsar.h \
- /home/gskw/workspace/BRSAR_Patch/source/networkstuff.h \
- /opt/devkitpro/libogc/include/ogcsys.h \
- /opt/devkitpro/libogc/include/fat.h \
- /opt/devkitpro/libogc/include/libfatversion.h \
- /opt/devkitpro/libogc/include/debug.h \
- /opt/devkitpro/libogc/include/network.h \
  /home/gskw/workspace/BRSAR_Patch/source/ctlaliases.h
+
+/opt/devkitpro/libogc/include/wiiuse/wpad.h:
+
+/opt/devkitpro/libogc/include/gctypes.h:
+
+/opt/devkitpro/libogc/include/wiiuse/wiiuse.h:
+
+/opt/devkitpro/libogc/include/bte/bte.h:
 
 /opt/devkitpro/libogc/include/gccore.h:
 
 /opt/devkitpro/libogc/include/ogc/dsp.h:
-
-/opt/devkitpro/libogc/include/gctypes.h:
 
 /opt/devkitpro/libogc/include/ogc/aram.h:
 
@@ -165,26 +164,6 @@ main.o: /home/gskw/workspace/BRSAR_Patch/source/main.c \
 
 /opt/devkitpro/libogc/include/ogc/wiilaunch.h:
 
-/opt/devkitpro/libogc/include/wiiuse/wpad.h:
-
-/opt/devkitpro/libogc/include/wiiuse/wiiuse.h:
-
-/opt/devkitpro/libogc/include/bte/bte.h:
-
 /opt/devkitpro/libogc/include/bte/bd_addr.h:
-
-/home/gskw/workspace/BRSAR_Patch/source/libbrsar.h:
-
-/home/gskw/workspace/BRSAR_Patch/source/networkstuff.h:
-
-/opt/devkitpro/libogc/include/ogcsys.h:
-
-/opt/devkitpro/libogc/include/fat.h:
-
-/opt/devkitpro/libogc/include/libfatversion.h:
-
-/opt/devkitpro/libogc/include/debug.h:
-
-/opt/devkitpro/libogc/include/network.h:
 
 /home/gskw/workspace/BRSAR_Patch/source/ctlaliases.h:

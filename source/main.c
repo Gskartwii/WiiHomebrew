@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <gccore.h>
 #include <wiiuse/wpad.h>
+//#include <pad.h>
 #include "libbrsar.h"
 #include "networkstuff.h"
 #include <fat.h>
@@ -9,6 +10,7 @@
 #include <network.h>
 #include <sys/dir.h>
 #include <dirent.h>
+#include "ctlaliases.h"
 
 #define CURR_VERSION 1
 
@@ -61,6 +63,7 @@ int main(int argc, char **argv) {
 
 	// This function initialises the attached controllers
 	WPAD_Init();
+	PAD_Init();
 
 	// Obtain the preferred video mode from the system
 	// This will correspond to the settings in the Wii menu
@@ -96,28 +99,18 @@ int main(int argc, char **argv) {
 	// we can use variables for this with format codes too
 	// e.g. printf ("\x1b[%d;%dH", row, column );
 	//printf("\x1b[2;0H");
-
-	/*printf("Menu of BRSTM's:\n");
-	printf("\e[32mN_BLOCK_F\n"); // Row 3;0H
-	printf("\e[37mN_BLOCK_N\n"); // Row 4;0H*/
-	printf("\e[2;0H%s", printthis);
+	printf("\e[2;0H%s\n", printthis);
+	printf("HOME to exit, A to update.\nNew code!\n");
 	DEBUG_Init(100, 5656);
 	while(1) {
 		// Call WPAD_ScanPads each loop, this reads the latest controller states
 		WPAD_ScanPads();
+		PAD_ScanPads();
 
 		// WPAD_ButtonsDown tells us which buttons were pressed in this loop
 		// this is a "one shot" state which will not fire again until the button has been released
-		u32 pressed = WPAD_ButtonsDown(0);
-
-		/*if ( pressed & WPAD_BUTTON_DOWN ) {
-			if (currow==sizeof(screen)/sizeof(screen[0])) currow=3;
-			else currow++;
-		}
-		else if (pressed & WPAD_BUTTON_UP) {
-			if (currow==3) currow=sizeof(screen)/sizeof(screen[0]);
-			else currow--;
-		}*/
+		//u32 pressed = GetCtlAlias(0);
+		u32 pressed=GetCtlAlias(WPAD_CHAN_0);
 		if (pressed & WPAD_BUTTON_HOME) {
 			return 0;
 		}
@@ -134,7 +127,9 @@ int main(int argc, char **argv) {
 			}*/
 			printf("\n\nReturn is: %s\n", file);
 		}
-		//updatescr();
+		else if (pressed & WPAD_BUTTON_B) {
+			printf("Expansion type: %X\n", (int)GetCtlType(WPAD_CHAN_0));
+		}
 
 		// Wait for the next frame
 		VIDEO_WaitVSync();
