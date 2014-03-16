@@ -21,6 +21,7 @@ s32 send_message(s32 server, char *msg);
 s32 httprep(s32 server, char *msg);
 bool tcp_write(const s32 s, char *buffer, const u32 length);
 u32 split(char *s, char sep, u32 maxsplit, char *result[]);
-void filedl();
+int filedl(char host[], char file[], char outfile[]);
+void readfile(char filename[], char* output, int dounlink, int filesize);
 
 #endif /* NETWORKSTUFF_H_ */

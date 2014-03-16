@@ -24,6 +24,7 @@
 #include <ogc/lwp_watchdog.h>
 #include "networkstuff.h"
 #include <debug.h>
+#include "ctlaliases.h"
 
 
 #define NET_BUFFER_SIZE 1024
@@ -194,9 +195,8 @@ inline s32 write_exact(s32 s, char *buf, s32 length) {
 	return transfer_exact(s,buf,length,(transferrer_type)net_write);
 }
 
-void filedl(char host[], char file[], char output[], char outfile[], int dounlink) {
+int filedl(char host[], char file[], char outfile[]) {
 	printf("Attempting to connect to server...\n");
-
 	s32 main_server=server_connect(host);
 	printf("Connection successful.\n\n");
 	printf("Outfile: %s\n", outfile);
@@ -216,21 +216,48 @@ void filedl(char host[], char file[], char output[], char outfile[], int dounlin
 	httprep(main_server, http_request);
 	int result=request_file(main_server, f);
 	fclose(f);
-	printf("Reading file NOW! Res=%d\n",result);
-	fclose(f);
-	f=fopen("sd:/dl.txt", "rb");
-	char ret[4096];
-	char text[1000];
-	while (fgets(text,1000,f)) {
-		sprintf(ret, "%s\n", text);
-	}
+	printf("Getting filesize Res=%d\n",result);
+	f=fopen(outfile, "rb");
+	//char ret[4096];
+	int fsize;
+	//char text[1000];
+	//while (fgets(text,1000,f)) {
+	//	sprintf(ret, "%s\n", text);
+	//}
 	//sleep(5);
+	fseek(f, 0, SEEK_END);
+	fsize=ftell(f);
 	fclose(f);
-	if (dounlink) {
+	return fsize;
+	/*if (dounlink) {
 		unlink(outfile);
 		printf("%s unlinked!\n", outfile);
-	}
+	}*/
 	//printf("Before strcpy");
-	strcpy(output, ret);
+	//strcpy(output, ret);
 	//printf("After strcpy");
+}
+
+void readfile(char filename[], char output[], int dounlink, int filesize) {
+	//printf("Readfile()");
+	//while(!(GetCtlAlias(0)&WPAD_BUTTON_A)) VIDEO_WaitVSync();
+	char ret[filesize+1];
+	FILE* f;
+	f=fopen(filename, "rb");
+//	fgets(ret, filesize, f);
+	int i;
+	if (ferror(f)) {perror("Error opening file;");return;}
+	for (i=0;i<filesize;i++) {
+		printf("i=%d\n", i);
+		//while(!(GetCtlAlias(0)&WPAD_BUTTON_A)) VIDEO_WaitVSync();
+		ret[i]=(char)fgetc(f);
+	}
+	ret[i]='\0';
+	//printf("Out in function: %s, strlen=%d, filesize=%d\n", ret, strlen(ret), filesize);
+	strcpy(output, ret);
+	//output=ret;
+	if (dounlink) {
+		unlink(filename);
+		printf("%s unlinked!\n", filename);
+	}
 }

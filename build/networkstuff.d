@@ -61,7 +61,8 @@ networkstuff.o: /home/gskw/workspace/BRSAR_Patch/source/networkstuff.c \
  /opt/devkitpro/libogc/include/ogc/lwp_watchdog.h \
  /opt/devkitpro/libogc/include/ogc/lwp_queue.h \
  /home/gskw/workspace/BRSAR_Patch/source/networkstuff.h \
- /opt/devkitpro/libogc/include/debug.h
+ /opt/devkitpro/libogc/include/debug.h \
+ /home/gskw/workspace/BRSAR_Patch/source/ctlaliases.h
 
 /opt/devkitpro/libogc/include/network.h:
 
@@ -188,3 +189,5 @@ networkstuff.o: /home/gskw/workspace/BRSAR_Patch/source/networkstuff.c \
 /home/gskw/workspace/BRSAR_Patch/source/networkstuff.h:
 
 /opt/devkitpro/libogc/include/debug.h:
+
+/home/gskw/workspace/BRSAR_Patch/source/ctlaliases.h:

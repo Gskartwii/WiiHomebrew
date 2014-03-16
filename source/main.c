@@ -10,6 +10,7 @@
 #include <network.h>
 #include <sys/dir.h>
 #include <dirent.h>
+#include <unistd.h>
 #include "ctlaliases.h"
 
 #define CURR_VERSION 1
@@ -18,35 +19,10 @@ int currow=3;
 static void *xfb = NULL;
 static GXRModeObj *rmode = NULL;
 
-/*char *screen[]={
-		"",
-		"",
-		"N_BLOCK_F",
-		"N_BLOCK_N",
-		"N_BOSSMI_32",
-		"N_CASINO_F",
-		"N_CASINO_N",
-		"N_CIRCUIT32_F",
-		"N_CIRCUIT32_N",
-		"N_DAISY32_F",
-		"N_DAISY32_N",
-		"N_FARM_F",
-		"N_FARM_N",
-		"N_KINOKO_F",
-		"N_KINOKO_N",
-		"N_MAPLE_F",
-		"N_MAPLE_N"
-};*/
-
-/*void updatescr() {
-	printf("\e[2;0HMenu of BRSAR's:\n");
-	static int i;
-	for (i=2;i<sizeof(screen)/sizeof(screen[0]);i++) {
-		if (currow-1==i) printf("\e[%d;0H\e[32m%s\e[37m Offset: %2X", i+1, screen[i], offsetFromString(screen[currow-1]));
-		else printf("\e[%d;0H\e[37m%s                 ", i+1, screen[i]);
-	}
-	printf("\n\e[37mCurrent row: %d, size=%d ",currow,sizeof(screen)/sizeof(screen[0]));
-}*/
+static void* Quit(void *arg) {
+	while(1)
+		if (GetCtlAlias(0)&WPAD_BUTTON_HOME) exit(0);
+}
 
 int main(int argc, char **argv) {
 	char printthis[4096];
@@ -100,8 +76,11 @@ int main(int argc, char **argv) {
 	// e.g. printf ("\x1b[%d;%dH", row, column );
 	//printf("\x1b[2;0H");
 	printf("\e[2;0H%s\n", printthis);
-	printf("HOME to exit, A to update.\nNew code!\n");
+	printf("\e[HOME to exit, A to update.\n");
 	DEBUG_Init(100, 5656);
+	//int counter=0;
+	//static lwp_t hbtnthread=LWP_THREAD_NULL;
+	//LWP_CreateThread(&hbtnthread, Quit, NULL, NULL, 0, 70); // Emergency
 	while(1) {
 		// Call WPAD_ScanPads each loop, this reads the latest controller states
 		WPAD_ScanPads();
@@ -111,27 +90,43 @@ int main(int argc, char **argv) {
 		// this is a "one shot" state which will not fire again until the button has been released
 		//u32 pressed = GetCtlAlias(0);
 		u32 pressed=GetCtlAlias(WPAD_CHAN_0);
+		//printf("%d", pressed);
 		if (pressed & WPAD_BUTTON_HOME) {
+			printf("Quitting!\n");
 			return 0;
 		}
 		else if (pressed & WPAD_BUTTON_A) {
-			char file[4096];
 			DIR *brsardir=opendir("sd:/BRSAR");
 			if (!brsardir) {
 				mkdir("sd:/BRSAR", 0777);
 				printf("Made dir BRSAR\n");
 			}
-			filedl("gskartwii.arkku.net", "latest.txt", &file, "sd:/BRSAR/latest.txt", 1);
+			int fsize;
+			fsize=filedl("gskartwii.arkku.net", "latest.txt", "sd:/BRSAR/latest.txt");
+			//char file[fsize+1];
+			char* file;
+			file=(char*)malloc((fsize+1)*sizeof(char));
+			readfile("sd:/BRSAR/latest.txt", file, 1, fsize);
 			/*if ((int)file>CURR_VERSION) {
 				filedl("gskartwii.arkku.net", "latest.dol", &file, "sd:/apps/BRSAR/boot.dol", 0);
 			}*/
-			printf("\n\nReturn is: %s\n", file);
+			printf("\n\nFilesize: %d\nFile: %s\n", fsize, file);
+//			free(file);
 		}
 		else if (pressed & WPAD_BUTTON_B) {
 			printf("Expansion type: %X\n", (int)GetCtlType(WPAD_CHAN_0));
 		}
+		else if (pressed & WPAD_BUTTON_PLUS) {
+			printf("Rumbling...\n");
+			WPAD_Rumble(WPAD_CHAN_0, 1);
+			sleep(1);
+			printf("Stopping rumble!\n");
+			WPAD_Rumble(WPAD_CHAN_0, 0);
+		}
 
 		// Wait for the next frame
+		//printf("Still looping! %d\n", counter);
+		//counter++;
 		VIDEO_WaitVSync();
 	}
 
