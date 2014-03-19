@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <gccore.h>
 #include <wiiuse/wpad.h>
-//#include <pad.h>
 #include "libbrsar.h"
 #include "networkstuff.h"
 #include <fat.h>
@@ -19,10 +18,6 @@ int currow=3;
 static void *xfb = NULL;
 static GXRModeObj *rmode = NULL;
 
-static void* Quit(void *arg) {
-	while(1)
-		if (GetCtlAlias(0)&WPAD_BUTTON_HOME) exit(0);
-}
 
 int main(int argc, char **argv) {
 	char printthis[4096];
@@ -78,9 +73,6 @@ int main(int argc, char **argv) {
 	printf("\e[2;0H%s\n", printthis);
 	printf("\e[HOME to exit, A to update.\n");
 	DEBUG_Init(100, 5656);
-	//int counter=0;
-	//static lwp_t hbtnthread=LWP_THREAD_NULL;
-	//LWP_CreateThread(&hbtnthread, Quit, NULL, NULL, 0, 70); // Emergency
 	while(1) {
 		// Call WPAD_ScanPads each loop, this reads the latest controller states
 		WPAD_ScanPads();
@@ -88,9 +80,7 @@ int main(int argc, char **argv) {
 
 		// WPAD_ButtonsDown tells us which buttons were pressed in this loop
 		// this is a "one shot" state which will not fire again until the button has been released
-		//u32 pressed = GetCtlAlias(0);
 		u32 pressed=GetCtlAlias(WPAD_CHAN_0);
-		//printf("%d", pressed);
 		if (pressed & WPAD_BUTTON_HOME) {
 			printf("Quitting!\n");
 			return 0;
@@ -107,9 +97,6 @@ int main(int argc, char **argv) {
 			char* file;
 			file=(char*)malloc((fsize+1)*sizeof(char));
 			readfile("sd:/BRSAR/latest.txt", file, 1, fsize);
-			/*if ((int)file>CURR_VERSION) {
-				filedl("gskartwii.arkku.net", "latest.dol", &file, "sd:/apps/BRSAR/boot.dol", 0);
-			}*/
 			printf("\n\nFilesize: %d\nFile: %s\n", fsize, file);
 //			free(file);
 		}
@@ -125,8 +112,6 @@ int main(int argc, char **argv) {
 		}
 
 		// Wait for the next frame
-		//printf("Still looping! %d\n", counter);
-		//counter++;
 		VIDEO_WaitVSync();
 	}
 

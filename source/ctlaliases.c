@@ -10,14 +10,10 @@ u32 GetCtlType(int ctl) {
 	u32 ret;
 	u32 type;
 	ret=WPAD_Probe(WPAD_CHAN_0, &type);
-	/*if (ret!=WPAD_ERR_NONE) {
-		printf("No pads!");
-		return 0;
-	}*/
 	WPAD_Expansion(ctl, &ext);
 	devtype=ext.type;
 	if (devtype == WPAD_EXP_NONE) return 0;
-	if (devtype == WPAD_EXP_NUNCHUK) {printf("\e20;0HNunchuk X: %d\n Nunchuk Y: %d\n", ext.nunchuk.js.pos.x, ext.nunchuk.js.pos.y); return 1;}
+	if (devtype == WPAD_EXP_NUNCHUK) {printf("\x1b[20;0HNunchuk X: %d\n Nunchuk Y: %d\n", ext.nunchuk.js.pos.x, ext.nunchuk.js.pos.y); return 1;}
 	if (devtype == WPAD_EXP_CLASSIC) return 2;
 	return devtype;
 }
@@ -94,6 +90,5 @@ u32 GetCtlAlias(int ctl) {
 		if (pad&PAD_BUTTON_START)
 			ret |= WPAD_BUTTON_HOME;
 	}
-	//printf("%d\n", ret);
 	return ret;
 }

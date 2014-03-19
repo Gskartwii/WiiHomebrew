@@ -218,44 +218,25 @@ int filedl(char host[], char file[], char outfile[]) {
 	fclose(f);
 	printf("Getting filesize Res=%d\n",result);
 	f=fopen(outfile, "rb");
-	//char ret[4096];
 	int fsize;
-	//char text[1000];
-	//while (fgets(text,1000,f)) {
-	//	sprintf(ret, "%s\n", text);
-	//}
-	//sleep(5);
 	fseek(f, 0, SEEK_END);
 	fsize=ftell(f);
 	fclose(f);
 	return fsize;
-	/*if (dounlink) {
-		unlink(outfile);
-		printf("%s unlinked!\n", outfile);
-	}*/
-	//printf("Before strcpy");
-	//strcpy(output, ret);
-	//printf("After strcpy");
 }
 
 void readfile(char filename[], char output[], int dounlink, int filesize) {
-	//printf("Readfile()");
-	//while(!(GetCtlAlias(0)&WPAD_BUTTON_A)) VIDEO_WaitVSync();
 	char ret[filesize+1];
 	FILE* f;
 	f=fopen(filename, "rb");
-//	fgets(ret, filesize, f);
 	int i;
 	if (ferror(f)) {perror("Error opening file;");return;}
 	for (i=0;i<filesize;i++) {
 		printf("i=%d\n", i);
-		//while(!(GetCtlAlias(0)&WPAD_BUTTON_A)) VIDEO_WaitVSync();
 		ret[i]=(char)fgetc(f);
 	}
 	ret[i]='\0';
-	//printf("Out in function: %s, strlen=%d, filesize=%d\n", ret, strlen(ret), filesize);
 	strcpy(output, ret);
-	//output=ret;
 	if (dounlink) {
 		unlink(filename);
 		printf("%s unlinked!\n", filename);
